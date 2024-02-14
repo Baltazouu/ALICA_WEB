@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# 🌐 ALICA - Réseau des Anciens Étudiants
 
-First, run the development server:
+Ce projet est une application web et mobile développée pour l'association ALICA (Association des Anciens Étudiants). Elle est construite avec React pour le front-end web.
 
-```bash
+## 🚀 Pour Commencer
+
+Suivez ces instructions pour obtenir une copie du projet sur votre machine et le faire fonctionner localement.
+
+### 📋 Prérequis
+
+Voici ce dont vous avez besoin pour installer le projet et comment l'installer :
+
+- Git
+- Node.js (version recommandée : la plus récente LTS)
+- npm ou yarn (généralement installé avec Node.js)
+
+### 🔧 Installation
+
+Pour configurer l'environnement de développement sur votre machine :
+
+1. **Clonez le dépôt** :
+   ```
+   git clone <URL_DU_DEPOT>
+   ```
+
+2. **Naviguez dans le dossier du projet** :
+   ```
+   cd ALICA_WEB
+   ```
+
+3. **Installez les dépendances** :
+   ```
+   npm install
+   ```
+   ou si vous utilisez yarn :
+   ```
+   yarn install
+   ```
+
+### 🚀 Lancement du Projet
+
+Pour lancer l'application web :
+
+```
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+ou si vous utilisez yarn :
+```
+yarn start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Construit avec
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [React](https://reactjs.org/) - Une bibliothèque JavaScript pour construire des interfaces utilisateur
+- [TypeScript](https://www.typescriptlang.org/) - Langage de programmation typé superset de JavaScript
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## ✒️ Auteurs
 
-## Learn More
+- [Léo TUAILLON](https://leotuaillon.com/)
+- [Baptiste Dudonne](https://github.com/Baltazouu/Baltazouu)
+- [Clément Verdoire](https://github.com/cLemzZz5) 
 
-To learn more about Next.js, take a look at the following resources:
+## 📄 Licence
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Ce projet est sous licence XYZ - voir le fichier [LICENSE.md](LICENSE.md) pour plus de détails.
