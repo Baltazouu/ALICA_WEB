@@ -73,6 +73,7 @@ export default function Navbar() {
                                 <TextField 
                                     className={styles.textField}
                                     id="outlined-basic" 
+                                    type='password'
                                     label="Mot de passe" 
                                     variant="outlined" 
                                 />
@@ -109,7 +110,8 @@ export default function Navbar() {
                                 />
                                 <TextField 
                                     className={styles.textField}
-                                    id="outlined-basic" 
+                                    id="outlined-basic"
+                                    type='password'
                                     label="Mot de passe" 
                                     variant="outlined" 
                                 />
