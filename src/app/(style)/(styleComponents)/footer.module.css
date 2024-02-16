@@ -1,0 +1,98 @@
+.footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    background-color: #ffffff;
+    color: rgb(153, 153, 153);
+}
+
+.topFooter {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 65%;
+    padding: 1.5em 0;
+    border-bottom: 1px solid rgb(236, 236, 236);
+}
+
+.logoDescriptionReseaux {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 33%;
+    height: 9em;
+}
+
+.logo {
+    display: flex;
+    width: 4em;
+    height: auto;
+}
+
+.titleALICA {
+    display: flex;
+    font-size: 0.85em;
+    margin-left: 1em;
+}
+
+.reseaux {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 45%;
+    margin-left: 1em;
+}
+
+.iconReseaux {
+    display: flex;
+    width: 1.75em;
+    height: auto;
+    color: black;
+}
+
+.iconReseaux:hover {
+    color: #00DBFF;
+}
+
+.association {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 15%;
+    height: 10em;
+    font-size: 0.85em;
+}
+
+.aide {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 33%;
+    height: 10em;
+    font-size: 0.85em;
+}
+
+.title {
+    display: flex;
+    font-size: 1.3em;
+    color: #00DBFF;
+}
+
+.bottomFooter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 65%;
+    height: 3em;
+    font-size: 0.85em;
+    color: rgb(189, 189, 189);
+}
