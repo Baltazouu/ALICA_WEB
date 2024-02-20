@@ -4,8 +4,6 @@ import bcrypt from 'bcryptjs';
 export const POST = async (request: any) => {
     const { surname, name, email, password } = await request.json();
 
-    console.log(surname, name, email, password);
-
     const hashedPassword = await bcrypt.hash(password, 1);
     const user = {
         surname,
@@ -13,8 +11,6 @@ export const POST = async (request: any) => {
         email,
         password: hashedPassword
     }
-
-    console.log(JSON.stringify(user));
 
     try {
         const res = await fetch( process.env.API_URL + '/auth/signUp', {
