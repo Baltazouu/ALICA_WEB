@@ -27,8 +27,8 @@ export default function Navbar() {
     const [isSignUp, setIsSignUp] = React.useState(false);
 
     const [user, setUser] = React.useState({
-        surname: '',
-        name: '',
+        lastName: '',
+        firstName: '',
         email: '',
         password: ''
     });
@@ -70,8 +70,8 @@ export default function Navbar() {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ 
-                    surname: user.surname,
-                    name: user.name,
+                    lastName: user.lastName,
+                    firstName: user.firstName,
                     email: user.email,
                     password: user.password
                  })
@@ -82,8 +82,8 @@ export default function Navbar() {
                 setError('');
                 await timeout(1500);
                 setUser({
-                    surname: '',
-                    name: '',
+                    lastName: '',
+                    firstName: '',
                     email: '',
                     password: ''
                 });
@@ -168,16 +168,16 @@ export default function Navbar() {
                             <div className={styles.inputsSignup}>
                                 <TextField
                                     className={styles.textField}
-                                    value={user.surname}
-                                    onChange={(e) => setUser({ ...user, surname: e.target.value })}
+                                    value={user.lastName}
+                                    onChange={(e) => setUser({ ...user, lastName: e.target.value })}
                                     id="outlined-basic"
                                     label="Surname"
                                     variant="outlined"
                                 />
                                 <TextField
                                     className={styles.textField}
-                                    value={user.name}
-                                    onChange={(e) => setUser({ ...user, name: e.target.value })}
+                                    value={user.firstName}
+                                    onChange={(e) => setUser({ ...user, firstName: e.target.value })}
                                     id="outlined-basic"
                                     label="Name"
                                     variant="outlined"

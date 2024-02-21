@@ -2,12 +2,12 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 
 export const POST = async (request: any) => {
-    const { surname, name, email, password } = await request.json();
+    const { lastName, firstName, email, password } = await request.json();
 
     const hashedPassword = await bcrypt.hash(password, 1);
     const user = {
-        surname,
-        name,
+        lastName: lastName,
+        firstName: firstName,
         email,
         password: hashedPassword
     }
@@ -18,9 +18,9 @@ export const POST = async (request: any) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ 
-                surname: user.surname,
-                name: user.name,
+            body: JSON.stringify({
+                lastName: user.lastName,
+                firstName: user.firstName,
                 email: user.email,
                 password: user.password
              })
