@@ -5,6 +5,10 @@ import "./(style)/globals.css";
 import Navbar from "./(components)/navbar";
 import Footer from "./(components)/footer";
 
+//Next-Auth
+import { getServerSession } from 'next-auth';
+import SessionProvider from './utils/sessionProvider';
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -23,18 +27,23 @@ export const metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const session = await getServerSession();
+
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar />
-        {children}
-        <Footer />
-        </body>
+        <SessionProvider session={session}>
+          <Navbar />
+          {children}
+          <Footer />
+        </SessionProvider>
+      </body>
     </html>
   );
 }

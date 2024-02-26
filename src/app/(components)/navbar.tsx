@@ -3,6 +3,7 @@ import React from 'react';
 import styles from '../(style)/(styleComponents)/navbar.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 //images imports
@@ -21,10 +22,16 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 export default function Navbar() {
 
+    const session = useSession();
     const router = useRouter();
     const [error, setError] = React.useState('');
     const [loading, setLoading] = React.useState(false);
     const [isSignUp, setIsSignUp] = React.useState(false);
+
+    const [credentials, setCredentials] = React.useState({
+        email: '',
+        password: ''
+    });
 
     const [user, setUser] = React.useState({
         lastName: '',
@@ -42,10 +49,6 @@ export default function Navbar() {
     const handleOpenSignup = () => setOpenModalSignup(true);
     const handleCloseSignup = () => setOpenModalSignup(false);
 
-    const handleChangeUSer = (e: any, prop: string) => {
-        setUser({ ...user, [prop]: e.target.value });
-    }
-
     function timeout(delay: number) {
         return new Promise( res => setTimeout(res, delay) );
     }
@@ -53,6 +56,26 @@ export default function Navbar() {
     const isValidEmail = (email: string) => {
         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         return emailRegex.test(email);
+    }
+
+    const handleSubmitSignIn = async (e: any) => {
+        e.preventDefault();
+        setLoading(true);
+
+        const res = await signIn('credentials', {
+            redirect: false,
+            email: credentials.email,
+            password: credentials.password
+        });
+
+        if (res?.error) {
+            setLoading(false);
+            setError('Identifiant ou mot de passe incorrect');
+            if (res?.url) router.replace('/dashboard');
+        } else {
+            setError('');
+            setLoading(false);
+        }
     }
 
     const handleSubmitSignUp = async (e: any) => {
@@ -64,7 +87,7 @@ export default function Navbar() {
             return;
         }
         try {
-            const res = await fetch('/server/api/register', {
+            const res = await fetch('/api/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -132,16 +155,20 @@ export default function Navbar() {
                         <FontAwesomeIcon className={styles.closeIcon} icon={faXmark} onClick={handleCloseLogin} />
                         <Image className={styles.bandeauCreerAsso} src={bandeauCreerAsso} alt="Bandeau Creer Asso" />
                         <p className={styles.modalTitle}>Se connecter</p>
-                        <form className={styles.modalForm}>
+                        <form className={styles.modalForm} onSubmit={handleSubmitSignIn}>
                             <div className={styles.inputs}>
                                 <TextField
                                     className={styles.textField}
+                                    value={credentials.email}
+                                    onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
                                     id="outlined-basic"
                                     label="Email"
                                     variant="outlined"
                                 />
                                 <TextField
                                     className={styles.textField}
+                                    value={credentials.password}
+                                    onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
                                     id="outlined-basic"
                                     type='password'
                                     label="Mot de passe"
