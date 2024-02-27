@@ -28,6 +28,13 @@ export default function Navbar() {
     const [loading, setLoading] = React.useState(false);
     const [isSignUp, setIsSignUp] = React.useState(false);
 
+    const [contact, setContact] = React.useState({
+        nom: '',
+        prenom: '',
+        email: '',
+        message: ''
+    });
+
     const [credentials, setCredentials] = React.useState({
         email: '',
         password: ''
@@ -40,8 +47,13 @@ export default function Navbar() {
         password: ''
     });
 
+    const [openModalContact, setOpenModalContact] = React.useState(false);
+
     const [openModalLogin, setOpenModalLogin] = React.useState(false);
     const [openModalSignup, setOpenModalSignup] = React.useState(false);
+
+    const handleOpenContact = () => setOpenModalContact(true);
+    const handleCloseContact = () => setOpenModalContact(false);
 
     const handleOpenLogin = () => setOpenModalLogin(true);
     const handleCloseLogin = () => setOpenModalLogin(false);
@@ -56,6 +68,11 @@ export default function Navbar() {
     const isValidEmail = (email: string) => {
         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         return emailRegex.test(email);
+    }
+
+    const handleSubmitContact= async (e: any) => {
+        e.preventDefault();
+        //TODO: send email to alica
     }
 
     const handleSubmitSignIn = async (e: any) => {
@@ -136,9 +153,59 @@ export default function Navbar() {
                 <Link className={styles.link} href="/offers">
                     <p>Offres</p>
                 </Link>
-                <Link className={styles.link} href="/contact">
+                <Link className={styles.link} href="" onClick={handleOpenContact}>
                     <p>Nous contacter</p>
                 </Link>
+                <Modal
+                    open={openModalContact}
+                    onClose={handleCloseContact}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <div className={styles.modal}>
+                        <FontAwesomeIcon className={styles.closeIcon} icon={faXmark} onClick={handleCloseContact} />
+                        <Image className={styles.bandeauCreerAsso} src={bandeauCreerAsso} alt="Bandeau Creer Asso" />
+                        <p className={styles.modalTitle}>Contact</p>
+                        <form className={styles.modalForm} onSubmit={handleSubmitContact}>
+                            <div className={`${styles.inputs} ${styles.inputsContact}`}>
+                                <TextField
+                                    className={styles.textField}
+                                    value={contact.nom}
+                                    onChange={(e) => setContact({ ...contact, nom: e.target.value })}
+                                    id="outlined-basic"
+                                    label="Nom"
+                                    variant="outlined"
+                                />
+                                <TextField
+                                    className={styles.textField}
+                                    value={contact.prenom}
+                                    onChange={(e) => setContact({ ...contact, prenom: e.target.value })}
+                                    id="outlined-basic"
+                                    label="Prénom"
+                                    variant="outlined"
+                                />
+                                <TextField
+                                    className={styles.textField}
+                                    value={contact.email}
+                                    onChange={(e) => setContact({ ...contact, email: e.target.value })}
+                                    id="outlined-basic"
+                                    label="Email"
+                                    variant="outlined"
+                                />
+                                <TextField
+                                    className={styles.textField}
+                                    value={contact.message}
+                                    onChange={(e) => setContact({ ...contact, message: e.target.value })}
+                                    id="outlined-basic"
+                                    type='text'
+                                    label="Message"
+                                    variant="outlined"
+                                />
+                            </div>
+                            <button className={styles.submitButton} type="submit">Envoyer</button>
+                        </form>
+                    </div>
+                </Modal>
                 <Link className={styles.link} href="/alumnis">
                     <p>Les Alumnis</p>
                 </Link>

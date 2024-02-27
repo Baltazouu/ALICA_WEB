@@ -11,8 +11,6 @@ export const authOptions: NextAuthOptions = {
       authorize: async (credentials: any) => {
         try {
 
-          console.log('credentials', credentials);
-
           const res = await fetch(process.env.API_URL + '/auth/signIn', {
             method: 'POST',
             headers: {
@@ -23,7 +21,7 @@ export const authOptions: NextAuthOptions = {
               password: credentials.password
             })
           });
-
+           
           if (res.status === 200) {
             const user = await res.json();
             return user;

@@ -1,2 +1,46 @@
+.about{
+    background-color: white;
+}
 
+.banner {
+    position: relative;
+}
 
+.banner .image {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+}
+
+.banner .text {
+    position: absolute; 
+    top: 50%;
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    text-align: center;
+}
+
+.banner .text h2{
+    color: #00DBFF;
+    font-size: 42px;
+    font-weight: 900;
+}
+
+.banner .text h3{
+    font-size: 25px;
+}
+
+.banner .text p{
+    margin-top: 15px;
+}
+
+.banner .text button{
+    padding: 5px 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #00DBFF;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
