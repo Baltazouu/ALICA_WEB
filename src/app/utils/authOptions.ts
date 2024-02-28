@@ -20,7 +20,7 @@ export const authOptions: NextAuthOptions = {
               password: credentials.password
             })
           });
-
+           
           if (res.status === 200) {
             const user = await res.json();
             return user;

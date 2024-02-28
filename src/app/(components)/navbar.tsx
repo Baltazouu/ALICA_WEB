@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '../(style)/(styleComponents)/navbar.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -27,6 +27,7 @@ import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 //FontAwesome imports
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import Contact from './contact';
 import { Box } from '@mui/material';
 
 
@@ -70,6 +71,16 @@ export default function Navbar() {
 
     const handleOpenSignup = () => setOpenModalSignup(true);
     const handleCloseSignup = () => setOpenModalSignup(false);
+
+    const [openModalContact, setOpenModalContact] = useState(false);
+
+    const handleOpenContact = () => {
+        setOpenModalContact(true);
+    };
+
+    const handleCloseContact = () => {
+        setOpenModalContact(false);
+    };
 
     function timeout(delay: number) {
         return new Promise(res => setTimeout(res, delay));
@@ -151,18 +162,19 @@ export default function Navbar() {
                 <Image className={styles.logo} src={logoAlica} alt="ALICA" />
             </div>
             <div className={styles.links}>
-                <Link className={styles.link} href="/">
+                <Link className={styles.link} href="#articles">
                     <p>A propos</p>
                 </Link>
-                <Link className={styles.link} href="/events">
+                <Link className={styles.link} href="#events">
                     <p>Evenements</p>
                 </Link>
-                <Link className={styles.link} href="/offers">
+                <Link className={styles.link} href="#offers">
                     <p>Offres</p>
                 </Link>
-                <Link className={styles.link} href="/contact">
+                <Link className={styles.link} href="" onClick={handleOpenContact}>
                     <p>Nous contacter</p>
                 </Link>
+                <Contact open={openModalContact} handleClose={handleCloseContact} />
                 <Link className={styles.link} href="/alumnis">
                     <p>Les Alumnis</p>
                 </Link>

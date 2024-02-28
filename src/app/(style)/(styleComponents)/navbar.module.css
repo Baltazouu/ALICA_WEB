@@ -180,6 +180,10 @@
     height: 17em;
 }
 
+.inputsContact{
+    height: 17em;
+}
+
 .textField {
     display: flex;
     flex-direction: column;

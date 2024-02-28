@@ -1,0 +1,60 @@
+.article {
+    display: flex;
+    flex-direction: column;
+    margin: 50px 100px;
+}
+
+.articleRow {
+    display: flex;
+    flex-direction: row;
+    height: 350px;
+    justify-content: center;
+    background-color: #EEEEEE;
+    border-radius: 5px;
+    margin: 20px 0;
+}
+
+.articleRowInverse {
+    display: flex;
+    flex-direction: row-reverse;
+    height: 350px;
+    justify-content: center;
+    background-color: #EEEEEE;
+    border-radius: 5px;
+}
+
+.image {
+    max-width: 50%;
+    height: 100%;
+    object-fit: cover;
+    width: auto;
+    object-position: left; 
+}
+
+.imageInverse {
+    object-position: right;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.content h2,
+.content div {
+    margin-bottom: 10px;
+}
+
+.content h2 {
+    color: #00DBFF;
+    font-size: 20px;
+    text-align: justify;
+}
+
+.content div {
+    color: #212121;
+    font-size: 15px;
+    text-align: justify;
+}
