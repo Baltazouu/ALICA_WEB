@@ -162,7 +162,7 @@ export default function Navbar() {
                 <Image className={styles.logo} src={logoAlica} alt="ALICA" />
             </div>
             <div className={styles.links}>
-                <Link className={styles.link} href="#articles">
+                <Link className={styles.link} href="/">
                     <p>A propos</p>
                 </Link>
                 <Link className={styles.link} href="#events">
