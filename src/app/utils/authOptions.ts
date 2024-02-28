@@ -10,9 +10,6 @@ export const authOptions: NextAuthOptions = {
       },
       authorize: async (credentials: any) => {
         try {
-
-          console.log('credentials', credentials);
-
           const res = await fetch(process.env.API_URL + '/auth/signIn', {
             method: 'POST',
             headers: {
@@ -35,6 +32,16 @@ export const authOptions: NextAuthOptions = {
     })
   ],
   secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async jwt({ token, user }: any) {
+      return { ...token, ...user };
+    },
+
+    async session({ session, token }: any) {
+      session.user = token;
+      return session;
+    }
+  },
 };
 
 export default authOptions;

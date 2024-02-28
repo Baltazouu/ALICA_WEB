@@ -3,7 +3,7 @@ import React from 'react';
 import styles from '../(style)/(styleComponents)/navbar.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 //images imports
@@ -14,10 +14,20 @@ import bandeauCreerAsso from '../../../public/images/BandeauCreerAsso.png';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
+import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Divider from '@mui/material/Divider';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import { PersonAdd, Settings, Logout } from '@mui/icons-material';
+import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 
 //FontAwesome imports
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { Box } from '@mui/material';
 
 
 export default function Navbar() {
@@ -27,6 +37,18 @@ export default function Navbar() {
     const [error, setError] = React.useState('');
     const [loading, setLoading] = React.useState(false);
     const [isSignUp, setIsSignUp] = React.useState(false);
+
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+
+    console.log(session);
 
     const [credentials, setCredentials] = React.useState({
         email: '',
@@ -50,7 +72,7 @@ export default function Navbar() {
     const handleCloseSignup = () => setOpenModalSignup(false);
 
     function timeout(delay: number) {
-        return new Promise( res => setTimeout(res, delay) );
+        return new Promise(res => setTimeout(res, delay));
     }
 
     const isValidEmail = (email: string) => {
@@ -73,8 +95,10 @@ export default function Navbar() {
             setError('Identifiant ou mot de passe incorrect');
             if (res?.url) router.replace('/dashboard');
         } else {
+            // router.replace('/dashboard');
             setError('');
             setLoading(false);
+            handleCloseLogin();
         }
     }
 
@@ -92,12 +116,12 @@ export default function Navbar() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ 
+                body: JSON.stringify({
                     lastName: user.lastName,
                     firstName: user.firstName,
                     email: user.email,
                     password: user.password
-                 })
+                })
             });
             await timeout(2000);
             if (res.status === 200) {
@@ -144,7 +168,7 @@ export default function Navbar() {
                 </Link>
             </div>
             <div className={styles.logIn_signUp}>
-                <button className={styles.buttonLogin} onClick={handleOpenLogin}>Se connecter</button>
+                {!session.data && <button className={styles.buttonLogin} onClick={handleOpenLogin}>Se connecter</button>}
                 <Modal
                     open={openModalLogin}
                     onClose={handleCloseLogin}
@@ -180,7 +204,7 @@ export default function Navbar() {
                         </form>
                     </div>
                 </Modal>
-                <button className={styles.buttonSignup} onClick={handleOpenSignup}>S'inscrire</button>
+                {!session.data && <button className={styles.buttonSignup} onClick={handleOpenSignup}>S'inscrire</button>}
                 <Modal
                     open={openModalSignup}
                     onClose={handleCloseSignup}
@@ -237,6 +261,52 @@ export default function Navbar() {
                         </form>
                     </div>
                 </Modal>
+                {session.data &&
+                    <Tooltip className={styles.buttonMenu} title="Account settings">
+                        <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+                            <IconButton
+                                onClick={handleClick}
+                                size="small"
+                                sx={{ ml: 2 }}
+                                aria-controls={open ? 'account-menu' : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={open ? 'true' : undefined}
+                            >
+                                <Avatar className={styles.avatar} alt="iconAlumni" src="/images/iconAlumni.png" sx={{ width: 34, height: 34 }} />
+                            </IconButton>
+                            <p className={styles.buttonProfil} onClick={handleClick}>Mon profil</p>
+                        </Box>
+                    </Tooltip>
+                }
+                <Menu
+                    anchorEl={anchorEl}
+                    id="account-menu"
+                    open={open}
+                    onClose={handleClose}
+                    onClick={handleClose}
+                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                >
+                    <MenuItem onClick={handleClose}>
+                        <Link className={styles.linkProfile} href="/profile">
+                            <Avatar className={styles.avatar} alt="iconAlumni" src="/images/iconAlumni.png" sx={{ width: 28, height: 28 }} />
+                            <p className={styles.menuProfil}>Mon profile</p>
+                        </Link>
+                    </MenuItem>
+                    <MenuItem onClick={handleClose}>
+                        <Link className={styles.linkProfile} href="/profile/myOffers">
+                            <PermContactCalendarIcon sx={{ width: 28, height: 28 }} />
+                            <p className={styles.menuProfil}>Mes offres</p>
+                        </Link>
+                    </MenuItem>
+                    <Divider />
+                    <MenuItem onClick={() => signOut()}>
+                        <ListItemIcon>
+                            <Logout fontSize="small" />
+                        </ListItemIcon>
+                        Déconnexion
+                    </MenuItem>
+                </Menu>
             </div>
         </div>
     );
