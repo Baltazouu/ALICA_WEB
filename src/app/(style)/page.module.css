@@ -32,9 +32,10 @@
 
 .banner .text p{
     margin-top: 15px;
+    margin-bottom: 15px;
 }
 
-.banner .text button{
+.banner .text a{
     padding: 5px 10px;
     margin-top: 10px;
     border: none;

@@ -1,9 +1,23 @@
 .article {
     display: flex;
+    flex-direction: column;
+    margin: 50px 100px;
+}
+
+.articleRow {
+    display: flex;
     flex-direction: row;
     height: 350px;
-    margin: 50px 100px;
-    padding: 50px;
+    justify-content: center;
+    background-color: #EEEEEE;
+    border-radius: 5px;
+    margin: 20px 0;
+}
+
+.articleRowInverse {
+    display: flex;
+    flex-direction: row-reverse;
+    height: 350px;
     justify-content: center;
     background-color: #EEEEEE;
     border-radius: 5px;
@@ -18,18 +32,14 @@
 }
 
 .imageInverse {
-    object-position: right; 
-}
-
-.content-container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    object-position: right;
 }
 
 .content {
-    padding: 0 20px;
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .content h2,

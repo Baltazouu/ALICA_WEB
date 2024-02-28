@@ -1,42 +1,90 @@
 'use client';
-import Article from "./(components)/article";
+import Articles from "./(components)/articles";
 import Carousel from "./(components)/carousel";
 import Offers from "./(components)/offers";
 import SearchBar from "./(components)/searchbar";
 import Stats from "./(components)/stats";
 import styles from "./(style)/page.module.css";
 import Bandeau from "./../../public/images/BandeauCreerAsso.png";
+import { useState, useEffect } from 'react';
 
 export default function About() {
-  let eventsList = [
-    {
-      "date": "date",
-      "title": "title",
-      "description": "description",
-      "image": "https://www.html.am/images/html-codes/links/boracay-white-beach-sunset-300x225.jpg"
-    },
-    {
-      "date": "date2",
-      "title": "title2",
-      "description": "description2",
-      "image": "https://www.html.am/images/html-codes/links/boracay-white-beach-sunset-300x225.jpg"
-    }
-  ];
+  const [eventsList, setEventsList] = useState([{}]);
+  const [offersList, setOffersList] = useState([{}]);
+  const [articlesList, setArticlesList] = useState([{}]);
+  const [alumnisList, setAlumnisList] = useState([{}]);
 
-  const fetchData = async () => {
-    const res = await fetch(process.env.API_URL + '/events', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    });
-    const data = await res.json();
-    eventsList=data.content;
-    //TOFINISH
-  };
-  
-  fetchData();
-  
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    try {
+      const res = await fetch('/api/event', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (res.status === 200) {
+        const data = await res.json();
+        setEventsList(data.content);
+      }else{
+        console.error('Failed to fetch events:', res.statusText);
+      }
+    } catch (error) {
+      console.error('An error occurred', error);
+    }
+    try {
+      const res = await fetch('/api/offer', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (res.status === 200) {
+        const data = await res.json();
+        setOffersList(data.content);
+      }else{
+        console.error('Failed to fetch offers:', res.statusText);
+      }
+    } catch (error) {
+      console.error('An error occurred', error);
+    }
+    try {
+      const res = await fetch('/api/article', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (res.status === 200) {
+        const data = await res.json();
+        setArticlesList(data.content);
+      }else{
+        console.error('Failed to fetch articles:', res.statusText);
+      }
+    } catch (error) {
+      console.error('An error occurred', error);
+    }
+    try {
+      const res = await fetch('/api/alumni', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (res.status === 200) {
+        const data = await res.json();
+        setAlumnisList(data.content);
+      }else{
+        console.error('Failed to fetch alumnis:', res.statusText);
+      }
+    } catch (error) {
+      console.error('An error occurred', error);
+    }
+  }
+    
   return (
       <div className={styles.about}>
         <div className={styles.banner}>
@@ -46,23 +94,20 @@ export default function About() {
             <h2>ALICA - info</h2>
             <h3>te souhaite la bienvenue !</h3>
             <p>Nous sommes d'anciens étudiants à l'IUT d'Aubière qui aimerions créer un réseau d'anciens étudiants au travers d'un réseau alumni du département Informatique.</p>
-            <button>En savoir plus</button>
+            <a href="#articles">En savoir plus</a>
           </div>
         </div>
-        <Carousel eventsList={eventsList} />
-        <Article article={{
-            title: "article",
-            body: "blablablabla blablablabla blablablabla blablablabla blablablabla blablablabla blablablabla blablablabla blablablabla blablablabla blablablabla blablablabla",
-            image: "https://www.html.am/images/html-codes/links/boracay-white-beach-sunset-300x225.jpg"
-          }} inverse={false} />
-          <Article article={{
-            title: "article",
-            body: "blablablabla blablablabla blablablabla blablablabla blablablabla blablablabla blablablabla blablablabla blablablabla blablablabla blablablabla blablablabla",
-            image: "https://www.html.am/images/html-codes/links/boracay-white-beach-sunset-300x225.jpg"
-          }} inverse={true} />
+        <div id="events">
+          <Carousel eventsList={eventsList} />
+        </div>
+        <div id="articles">
+          <Articles articles={articlesList} />
+        </div>
         <SearchBar />
-        <Offers/>
-        <Stats />
+        <div id="offers">
+          <Offers offersList={offersList}/>
+        </div>
+        <Stats alumniCount={alumnisList.length} offresCount={offersList.length} evenementsCount={eventsList.length}/>
       </div>
   );
 }

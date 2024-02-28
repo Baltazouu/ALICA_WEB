@@ -6,13 +6,17 @@ export default function SearchBar() {
     return (
         <div className={styles.search}>
             Découvrez les profils d'alumnis !
-            <button className={styles.profilButton} onClick={() => {}}>Voir tous les profils</button>
-            <div className={styles.searchLine}>
+            <a className={styles.profilButton} href='/alumni'>Voir tous les profils</a>
+            {/* <div className={styles.searchLine}>
                 <input className={styles.searchBar} type="text" placeholder="Rechercher des alumni..."/>
                 <a className={styles.searchButton} href="">
                     <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.icon}/>
                 </a>
-            </div>
+            </div> */}
+            <a className={styles.searchLine} href='/alumni'>
+                Rechercher des alumni...
+                <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.icon}/>
+            </a>
         </div>
     )
 }

@@ -10,7 +10,7 @@ export default function Carousel({ eventsList }: CarouselProps) {
 
   useEffect(() => {
     showDivs(slideIndex);
-  }, [slideIndex]);
+  }, [slideIndex, eventsList]);
 
   function plusDivs(n: number) {
     setSlideIndex(prevIndex => prevIndex + n);
@@ -32,12 +32,13 @@ export default function Carousel({ eventsList }: CarouselProps) {
   
   return (
     <div className={styles.slideshowContainer} id="evenements" style={{display:"none"}}>
+      {eventsList.length === 0 && <h3>Aucun evenements pour le moment</h3>}
       {eventsList && (
         <>
           {eventsList.map((event: any, index: number) => (
             <div className={styles.slide} key={index}>
               <div className={styles.slideImg}>
-                <img src={event.image} alt={event.title} />
+                <img src={event.imageURL} alt={event.title} />
               </div>
               <div className={styles.slideInfo}>
                 <div className={styles.slideDate}>{event.date}</div>

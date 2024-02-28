@@ -1,4 +1,5 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from '../(style)/(styleComponents)/footer.module.css';
@@ -9,9 +10,20 @@ import logoAlica from '../../../public/images/ALICA.png';
 //FontAwesome imports
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquareFacebook, faSquareInstagram, faSquareXTwitter, faSquareGithub } from '@fortawesome/free-brands-svg-icons';
-
+import Contact from "./contact";
 
 export default function Footer() {
+
+    const [openModalContact, setOpenModalContact] = useState(false);
+
+    const handleOpenContact = () => {
+        setOpenModalContact(true);
+    };
+
+    const handleCloseContact = () => {
+        setOpenModalContact(false);
+    };
+
     return (
         <footer className={styles.footer}>
             <div className={styles.topFooter}>
@@ -27,21 +39,22 @@ export default function Footer() {
                 </div>
                 <div className={styles.association}>
                     <h3 className={styles.title}>Association</h3>
-                    <Link href="/about">
+                    <Link href="#articles">
                         <p>A propos</p>
                     </Link>
-                    <Link href="/events">
+                    <Link href="#events">
                         <p>Evenements</p>
                     </Link>
-                    <Link href="/offers">
+                    <Link href="#offers">
                         <p>Offres</p>
                     </Link>
                 </div>
                 <div className={styles.aide}>
                     <h3 className={styles.title}>Aide</h3>
-                    <Link href="/contact">
+                    <Link href="" onClick={handleOpenContact}>
                         <p>Nous contacter</p>
                     </Link>
+                    <Contact open={openModalContact} handleClose={handleCloseContact} />
                     <Link href="/termeConditions">
                         <p>Termes & Conditions</p>
                     </Link>
