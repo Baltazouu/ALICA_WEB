@@ -48,9 +48,6 @@ export default function Navbar() {
         setAnchorEl(null);
     };
 
-
-    console.log(session);
-
     const [credentials, setCredentials] = React.useState({
         email: '',
         password: ''

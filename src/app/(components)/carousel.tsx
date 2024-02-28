@@ -32,7 +32,13 @@ export default function Carousel({ eventsList }: CarouselProps) {
   
   return (
     <div className={styles.slideshowContainer} id="evenements" style={{display:"none"}}>
-      {eventsList.length === 0 && <h3>Aucun evenements pour le moment</h3>}
+      {eventsList.length === 0 && 
+      <div className={`${styles.slide} ${styles.slideAlternate}`}>
+        <div className={styles.slideInfo}>
+          <h3>Rien de prévu pour le moment, mais reste connecté</h3>
+        </div>
+      </div>
+      }
       {eventsList && (
         <>
           {eventsList.map((event: any, index: number) => (
@@ -47,8 +53,8 @@ export default function Carousel({ eventsList }: CarouselProps) {
               </div>
             </div>
           ))}
-          <button className={styles.prevButton} onClick={() => plusDivs(-1)}>&#10094;</button>
-          <button className={styles.nextButton} onClick={() => plusDivs(1)}>&#10095;</button>
+          <button className={`${styles.prevButton} ${eventsList.length > 1 ? styles.prevButton : styles.blocked}`} onClick={() => plusDivs(-1)}>&#10094;</button>
+          <button className={`${styles.nextButton} ${eventsList.length > 1 ? styles.nextButton : styles.blocked}`} onClick={() => plusDivs(1)}>&#10095;</button>
         </>
       )}
     </div>

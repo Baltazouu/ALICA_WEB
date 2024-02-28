@@ -10,10 +10,10 @@ import { useState, useEffect } from 'react';
 import { useSession } from "next-auth/react";
 
 export default function About() {
-  const [eventsList, setEventsList] = useState([{}]);
-  const [offersList, setOffersList] = useState([{}]);
-  const [articlesList, setArticlesList] = useState([{}]);
-  const [alumnisList, setAlumnisList] = useState([{}]);
+  const [eventsList, setEventsList] = useState([]);
+  const [offersList, setOffersList] = useState([]);
+  const [articlesList, setArticlesList] = useState([]);
+  const [alumnisList, setAlumnisList] = useState([]);
 
   useEffect(() => {
     fetchData();
@@ -85,10 +85,7 @@ export default function About() {
       console.error('An error occurred', error);
     }
   }
-    
-
-  const { data: session } = useSession();
-
+  
   return (
       <div className={styles.about}>
         <div className={styles.banner}>
