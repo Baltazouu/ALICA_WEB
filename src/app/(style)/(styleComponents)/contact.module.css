@@ -92,3 +92,21 @@
     margin-top: 0.5em;
     color: #00ff4c;
 }
+
+.submitted{
+    color: #212121;
+    font-size: 1em;
+    margin-top: 0.5em;
+    align-items: center;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);    
+}
+
+.submitted .checkIcon{
+    color: forestgreen;
+    height: 3em;
+    margin-bottom: 1em;
+}

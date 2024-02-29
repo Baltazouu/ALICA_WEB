@@ -194,7 +194,6 @@ export default function Navbar() {
                                     className={styles.textField}
                                     value={credentials.email}
                                     onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
-                                    id="outlined-basic"
                                     label="Email"
                                     variant="outlined"
                                 />
@@ -202,7 +201,6 @@ export default function Navbar() {
                                     className={styles.textField}
                                     value={credentials.password}
                                     onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
-                                    id="outlined-basic"
                                     type='password'
                                     label="Mot de passe"
                                     variant="outlined"
@@ -230,7 +228,6 @@ export default function Navbar() {
                                     className={styles.textField}
                                     value={user.lastName}
                                     onChange={(e) => setUser({ ...user, lastName: e.target.value })}
-                                    id="outlined-basic"
                                     label="Surname"
                                     variant="outlined"
                                 />
@@ -238,7 +235,6 @@ export default function Navbar() {
                                     className={styles.textField}
                                     value={user.firstName}
                                     onChange={(e) => setUser({ ...user, firstName: e.target.value })}
-                                    id="outlined-basic"
                                     label="Name"
                                     variant="outlined"
                                 />
@@ -246,7 +242,6 @@ export default function Navbar() {
                                     className={styles.textField}
                                     value={user.email}
                                     onChange={(e) => setUser({ ...user, email: e.target.value })}
-                                    id="outlined-basic"
                                     label="Email"
                                     variant="outlined"
                                 />
@@ -254,7 +249,6 @@ export default function Navbar() {
                                     className={styles.textField}
                                     value={user.password}
                                     onChange={(e) => setUser({ ...user, password: e.target.value })}
-                                    id="outlined-basic"
                                     type='password'
                                     label="Mot de passe"
                                     variant="outlined"

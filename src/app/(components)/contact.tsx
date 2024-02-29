@@ -1,12 +1,11 @@
-'use client';
-import React from 'react';
-import Image from 'next/image';
-import styles from '../(style)/(styleComponents)/contact.module.css';
-import bandeauCreerAsso from '../../../public/images/BandeauCreerAsso.png';
+import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import styles from '../(style)/(styleComponents)/contact.module.css';
+import Image from 'next/image';
+import bandeauCreerAsso from '../../../public/images/BandeauCreerAsso.png';
 
 interface ContactProps {
     open: boolean;
@@ -14,18 +13,41 @@ interface ContactProps {
 }
 
 export default function Contact({ open, handleClose }: ContactProps) {
-
-    const [contact, setContact] = React.useState({
+    const [contact, setContact] = useState({
         nom: '',
         prenom: '',
         email: '',
         message: ''
     });
+    const [submitted, setSubmitted] = useState(false);
 
-    const handleSubmitContact= async (e: any) => {
+    const handleSubmitContact= async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        //TODO: send email to alica
-    }
+        try {
+            const formData = new FormData();
+            formData.append('Name', contact.nom+" "+contact.prenom);
+            formData.append('Email', contact.email);
+            formData.append('Message', contact.message);
+            const res = await fetch('https://formspree.io/f/mzbngyak', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            if (res.ok) {
+                setSubmitted(true);
+                    setTimeout(() => {
+                        setSubmitted(false);
+                        handleClose();
+                    }, 4000);
+            } else {
+                console.error('Failed to submit form:', res.statusText);
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+        }
+    };
 
     return (
         <Modal
@@ -37,7 +59,13 @@ export default function Contact({ open, handleClose }: ContactProps) {
             <div className={styles.modal}>
                 <FontAwesomeIcon className={styles.closeIcon} icon={faXmark} onClick={handleClose} />
                 <Image className={styles.bandeauCreerAsso} src={bandeauCreerAsso} alt="Bandeau Creer Asso" />
-                <p className={styles.modalTitle}>Contact</p>
+                <p className={styles.modalTitle}>Nous contacter</p>
+                {submitted ? ( 
+                    <div className={styles.submitted}>
+                        <FontAwesomeIcon className={styles.checkIcon} icon={faCheck} />
+                        <p>Votre message a été envoyé avec succès !</p>
+                    </div>
+                ) : (
                 <form className={styles.modalForm} onSubmit={handleSubmitContact}>
                     <div className={styles.inputs}>
                         <TextField
@@ -47,6 +75,7 @@ export default function Contact({ open, handleClose }: ContactProps) {
                             id="outlined-basic"
                             label="Nom"
                             variant="outlined"
+                            required={true}
                         />
                         <TextField
                             className={styles.textField}
@@ -55,6 +84,7 @@ export default function Contact({ open, handleClose }: ContactProps) {
                             id="outlined-basic"
                             label="Prénom"
                             variant="outlined"
+                            required={true}
                         />
                         <TextField
                             className={styles.textField}
@@ -63,6 +93,7 @@ export default function Contact({ open, handleClose }: ContactProps) {
                             id="outlined-basic"
                             label="Email"
                             variant="outlined"
+                            required={true}
                         />
                         <TextField
                             className={styles.textField}
@@ -72,12 +103,14 @@ export default function Contact({ open, handleClose }: ContactProps) {
                             type='text'
                             label="Message"
                             variant="outlined"
+                            required={true}
                             multiline
                             rows={4}
                         />
                     </div>
                     <button className={styles.submitButton} type="submit">Envoyer</button>
                 </form>
+                )}
             </div>
         </Modal>
     )
