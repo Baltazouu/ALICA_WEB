@@ -39,7 +39,7 @@ export default function Footer() {
                 </div>
                 <div className={styles.association}>
                     <h3 className={styles.title}>Association</h3>
-                    <Link href="#articles">
+                    <Link href="/">
                         <p>A propos</p>
                     </Link>
                     <Link href="#events">

@@ -48,6 +48,8 @@
 
 .icon{
     color: #212121;
+    max-width: 16px;
+    max-height: 16px;
 }
 
 .searchLine{

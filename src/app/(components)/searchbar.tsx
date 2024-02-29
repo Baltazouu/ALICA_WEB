@@ -7,15 +7,9 @@ export default function SearchBar() {
         <div className={styles.search}>
             Découvrez les profils d'alumnis !
             <a className={styles.profilButton} href='/alumni'>Voir tous les profils</a>
-            {/* <div className={styles.searchLine}>
-                <input className={styles.searchBar} type="text" placeholder="Rechercher des alumni..."/>
-                <a className={styles.searchButton} href="">
-                    <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.icon}/>
-                </a>
-            </div> */}
             <a className={styles.searchLine} href='/alumni'>
                 Rechercher des alumni...
-                <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.icon}/>
+                <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.icon}  />
             </a>
         </div>
     )

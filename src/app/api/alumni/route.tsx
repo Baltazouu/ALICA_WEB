@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 export const GET = async () => {
     try {
-        const res = await fetch(process.env.API_URL + '/alumnis', {
+        const res = await fetch(process.env.API_URL + '/alumnis-restricted', {
             method: 'GET',
             cache: 'no-cache',
             headers: {
