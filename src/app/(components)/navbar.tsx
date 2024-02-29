@@ -260,7 +260,6 @@ export default function Navbar() {
                                     variant="outlined"
                                 />
                             </div>
-                            <p className={styles.textPassword}>Mot de passe oublié ?</p>
                             {loading
                                 ? <CircularProgress />
                                 : <button className={styles.submitButton} type="submit">S'inscrire</button>
