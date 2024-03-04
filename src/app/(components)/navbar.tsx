@@ -162,7 +162,7 @@ export default function Navbar() {
                 <Link className={styles.link} href="/">
                     <p>A propos</p>
                 </Link>
-                <Link className={styles.link} href="#events">
+                <Link className={styles.link} href="/event">
                     <p>Evenements</p>
                 </Link>
                 <Link className={styles.link} href="#offers">
