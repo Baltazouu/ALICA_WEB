@@ -1,0 +1,124 @@
+.offers{
+    background-color: white;
+    margin-top: -15px;
+    min-height: calc(100% - 321.6px);
+    color: #212121;
+}
+
+.add{
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    margin-bottom: -15px;
+}
+
+.add a{
+    text-decoration: none;
+    background: #00DBFF;
+    font-size: 20px;
+    margin: 20px 0;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+.pagination{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    color: #212121;
+}
+
+.pagination button{
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #00DBFF;
+}
+
+.pagination button:disabled{
+    background-color: #EEEEEE;
+    color: #BDBDBD;
+    cursor: not-allowed;
+}
+
+.pagination span{
+    margin: 0 10px;
+    font-size: 15px;
+    padding-top: 3px;
+}
+
+.button{
+    max-width: 15px;
+}
+.addOffer{
+    min-height: calc(100% - 321.6px);
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    margin-top: -15px;
+    background: white;
+    color: #212121;
+}
+
+.addOffer form{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.addOffer form input, .addOffer form select, .addOffer form textarea{
+    margin: 5px 0;
+    padding: 5px;
+    background: white;
+    border: 1px solid #BDBDBD;
+    border-radius: 5px;
+    width: 300px;
+    color: #212121;
+}
+
+.addOffer form button{
+    margin: 10px 0;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #00DBFF;
+    color: white;
+    cursor: pointer;
+}
+
+.addOffer form div {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.addOffer form label {
+    flex: 0 0 200px;
+    margin-right: 10px;
+}
+
+.addOffer form textarea {
+    flex: 1;
+    min-width: 300px;
+}
+
+.addOffer label{
+    text-align: right;
+}
+
+.addOffer form .submit {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    width: 100%; 
+}
+
+.addOffer form .submit button {
+    max-width: 200px;
+    padding: 5px 10px;
+    font-size: 15px;
+}

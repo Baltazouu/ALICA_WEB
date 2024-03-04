@@ -8,7 +8,7 @@ export default function Offers({ offersList }: OffersProps) {
     return (
         <div className={styles.content}>
             <h2>Offres :</h2>
-            <hr/>
+            <hr className={styles.hr}/>
             <div className={styles.offers}>
                 {offersList.length === 0 && <h3>Actuellement, il n'y a rien à pourvoir</h3>}
                 {offersList.map((offer, index) => (
