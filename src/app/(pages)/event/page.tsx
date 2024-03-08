@@ -20,14 +20,24 @@ import dayjs, { Dayjs } from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import Pagination from '@mui/material/Pagination';
+import CircularProgress from '@mui/material/CircularProgress';
+
+// Imports components
+import Events from '../../(components)/events';
 
 export default function Event() {
 
+    const [loading, setLoading] = React.useState(false);
+    const [eventsList, setEventsList] = React.useState<Array<any>>([]);
+    const [total, setTotal] = React.useState(0);
+    const [page, setPage] = React.useState(0);
+
     React.useEffect(() => {
         fetchData();
-    }, []);
+    }, [page]);
 
-    const { data: session } = useSession();
+    const session = useSession();
 
     let date1 = new Date().toLocaleDateString();
     const [dateValue, setDateValue] = React.useState<Dayjs | null>(dayjs(date1));
@@ -37,15 +47,11 @@ export default function Event() {
         description: '',
         date: dateValue.$d.toISOString(),
         imageURL: 'test_ImageURL',
-        alumniToken: session?.user.token
     });
-
-    const [eventsList, setEventsList] = React.useState([]);
 
     const [openModalAddEvent, setOpenModalAddEvent] = React.useState(false);
     const handleOpenModalAddEvent = () => setOpenModalAddEvent(true);
     const handleCloseModalAddEvent = () => setOpenModalAddEvent(false);
-
 
     const VisuallyHiddenInput = styled('input')({
         clip: 'rect(0 0 0 0)',
@@ -196,21 +202,45 @@ export default function Event() {
 
     const fetchData = async () => {
         try {
-            const res = await fetch('/api/event', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+            const requestHeaders = new Headers({
+                'Content-Type': 'application/json',
             });
-            if (res.status === 200) {
-                const data = await res.json();
-                setEventsList(data.content);
-                console.log('Events:', data);
-            } else {
-                console.error('Failed to fetch events:', res.statusText);
-            }
-        } catch (error) {
-            console.error('An error occurred', error);
+
+            const eventResponse = await fetch('/api/event?page=' + page, {
+                method: 'GET',
+                headers: requestHeaders,
+            });
+            const dataEvents = await eventResponse.json();
+            const rawEvents = dataEvents.content;
+            setTotal(dataEvents.totalElements);
+
+            const eventOrganizerResponse = await fetch('/api/alumniRestricted', {
+                method: 'GET',
+                headers: requestHeaders,
+            });
+            const rawOrganizers = (await eventOrganizerResponse.json()).content;
+            const organizersMap = new Map(rawOrganizers.map((organizer: any) => [organizer.id, organizer]));
+
+            const events = rawEvents.map((event: any) => {
+                const organizer = organizersMap.get(event.organizerId) as { firstName: string; lastName: string; linkedinURL: string; imageURL: string; };
+                return {
+                    title: event.title,
+                    description: event.description,
+                    imageURL: event.imageURL,
+                    date: event.date,
+                    nbMaxRegistrations: event.nbMaxRegistrations,
+                    nbRegistrations: event.nbRegistrations,
+                    organizerFirstName: organizer.firstName,
+                    organizerLastName: organizer.lastName,
+                    organizerLinkedinURL: organizer.linkedinURL,
+                    organizerImageURL: organizer.imageURL,
+                };
+            });
+            setEventsList(events);
+            setLoading(false);
+        }
+        catch (err: any) {
+            console.error(err);
         }
     }
 
@@ -228,7 +258,7 @@ export default function Event() {
                     date: events.date,
                     imageURL: events.imageURL,
                     nbMaxRegistrations: numberInputValue,
-                    alumniToken: session?.user.token
+                    alumniToken: session.data?.user.token
                 })
             });
             if (res.status !== 201) {
@@ -241,65 +271,86 @@ export default function Event() {
 
     return (
         <div className={styles.container}>
-            <p className={styles.title}>Evénements</p>
-            <button className={styles.buttonAddEvent} onClick={handleOpenModalAddEvent}>add</button>
-            <Modal
-                open={openModalAddEvent}
-                onClose={handleCloseModalAddEvent}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <div className={styles.modalAddEvent}>
-                    <p className={styles.titleModalAddEvent}>Ajouter un événement</p>
-                    <form className={styles.formModalAddEvent} onSubmit={handleAddEvent}>
-                        <TextField
-                            id="title"
-                            label="Titre"
-                            variant="outlined"
-                            className={styles.inputModalAddEvent}
-                            value={events.title}
-                            onChange={(e) => setEvents({ ...events, title: e.target.value })}
-                            sx={{ width: 350 }}
-                        />
-                        <TextField
-                            id="description"
-                            label="Description"
-                            variant="outlined"
-                            className={styles.inputModalAddEvent}
-                            value={events.description}
-                            onChange={(e) => setEvents({ ...events, description: e.target.value })}
-                            sx={{ width: 350 }}
-                        />
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker
-                                label="Controlled picker"
-                                value={dateValue}
-                                onChange={(newValue) => setDateValue(newValue)}
-                            />
-                        </LocalizationProvider>
-                        <NumberInput
-                            aria-label="Quantity Input"
-                            min={0}
-                            value={numberInputValue}
-                            onChange={(event, newValue) => {
-                                event.preventDefault();
-                                setNumberInputValue(newValue as number);
-                            }}
-                        />
-                        {/* <Button
-                                component="label"
-                                role={undefined}
-                                variant="contained"
-                                tabIndex={-1}
-                                startIcon={<CloudUploadIcon />}
-                            >
-                                Upload file
-                                <VisuallyHiddenInput type="file" />
-                            </Button> */}
-                        <button type="submit" className={styles.buttonModalAddEvent}>Ajouter</button>
-                    </form>
+            <div className={styles.eventsList}>
+                <div className={styles.titleAndAddButton}>
+                    <h2 className={styles.title}>Evenements</h2>
+                    {session?.status === 'authenticated'
+                        && <button className={styles.buttonAddEvent} onClick={handleOpenModalAddEvent}>Nouvel événement ?</button>
+                    }
+                    <Modal
+                        open={openModalAddEvent}
+                        onClose={handleCloseModalAddEvent}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <div className={styles.modalAddEvent}>
+                            <p className={styles.titleModalAddEvent}>Ajouter un événement</p>
+                            <form className={styles.formModalAddEvent} onSubmit={handleAddEvent}>
+                                <TextField
+                                    id="title"
+                                    label="Titre"
+                                    variant="outlined"
+                                    className={styles.inputModalAddEvent}
+                                    value={events.title}
+                                    onChange={(e) => setEvents({ ...events, title: e.target.value })}
+                                    sx={{ width: 350 }}
+                                />
+                                <TextField
+                                    id="description"
+                                    label="Description"
+                                    variant="outlined"
+                                    className={styles.inputModalAddEvent}
+                                    value={events.description}
+                                    onChange={(e) => setEvents({ ...events, description: e.target.value })}
+                                    sx={{ width: 350 }}
+                                />
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DatePicker
+                                        label="Controlled picker"
+                                        value={dateValue}
+                                        onChange={(newValue) => setDateValue(newValue)}
+                                    />
+                                </LocalizationProvider>
+                                <NumberInput
+                                    aria-label="Quantity Input"
+                                    min={0}
+                                    value={numberInputValue}
+                                    onChange={(event, newValue) => {
+                                        event.preventDefault();
+                                        setNumberInputValue(newValue as number);
+                                    }}
+                                />
+                                {/* <Button
+                                    component="label"
+                                    role={undefined}
+                                    variant="contained"
+                                    tabIndex={-1}
+                                    startIcon={<CloudUploadIcon />}
+                                >
+                                    Upload file
+                                    <VisuallyHiddenInput type="file" />
+                                </Button> */}
+                                <button type="submit" className={styles.buttonModalAddEvent}>Ajouter</button>
+                            </form>
+                        </div>
+                    </Modal>
                 </div>
-            </Modal>
+                {loading
+                    ? <CircularProgress />
+                    : <>
+                        <Events eventsList={eventsList} />
+                        <div className={styles.pagination}>
+                            <Pagination
+                                className={styles.eventPagination}
+                                count={Math.ceil(total / 10)}
+                                page={page + 1}
+                                onChange={(event, value) => setPage(value - 1)}
+                                color="primary"
+                            />
+                        </div>
+                    </>
+                }
+            </div>
         </div>
     );
 }

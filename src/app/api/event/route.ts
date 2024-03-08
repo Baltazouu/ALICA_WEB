@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
+import querystring from 'querystring';
 
-export const GET = async () => {
+export const GET = async (req: any) => {
     try {
-        const res = await fetch(process.env.API_URL + '/events', {
+        const { page } = querystring.parse(req.url.split('?')[1]);
+        const res = await fetch(process.env.API_URL + '/events?page='+page , {
             method: 'GET',
             cache: 'no-cache',
             headers: {
@@ -19,8 +21,8 @@ export const GET = async () => {
     }
 };
 
-export const POST = async (request: any) => {
-    const { title, description, date, imageURL, nbMaxRegistrations, alumniToken } = await request.json();
+export const POST = async (req: any) => {
+    const { title, description, date, imageURL, nbMaxRegistrations, alumniToken } = await req.json();
 
     try {
         const res = await fetch(process.env.API_URL + '/events', {
