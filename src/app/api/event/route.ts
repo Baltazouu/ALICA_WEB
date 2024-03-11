@@ -44,6 +44,9 @@ export const POST = async (req: any) => {
             const data = await res.json();
             return new NextResponse(JSON.stringify(data), { status: 201 });
         }
+        if (res.status === 400) {
+            return new NextResponse(null, { status: 400 });
+        }
         return new NextResponse(null, { status: 401 });
     } catch (err: any) {
         return new NextResponse(err, { status: 401 });

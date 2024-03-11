@@ -25,9 +25,11 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 // Imports components
 import Events from '../../(components)/events';
+import { set } from 'date-fns';
 
 export default function Event() {
 
+    const [error, setError] = React.useState('');
     const [loading, setLoading] = React.useState(false);
     const [eventsList, setEventsList] = React.useState<Array<any>>([]);
     const [total, setTotal] = React.useState(0);
@@ -45,7 +47,7 @@ export default function Event() {
     const [events, setEvents] = React.useState({
         title: '',
         description: '',
-        date: dateValue.$d.toISOString(),
+        date: dateValue?.$d.toISOString(),
         imageURL: 'test_ImageURL',
     });
 
@@ -237,10 +239,12 @@ export default function Event() {
                 };
             });
             setEventsList(events);
-            setLoading(false);
         }
         catch (err: any) {
             console.error(err);
+        }
+        finally {
+            setLoading(false);
         }
     }
 
@@ -262,10 +266,21 @@ export default function Event() {
                 })
             });
             if (res.status !== 201) {
-                console.error('Failed to add event:', res.statusText);
+                setError('Titre de l\'événement déjà existant');
+            }
+            else {
+                setError('');
+                setEvents({
+                    title: '',
+                    description: '',
+                    date: dateValue?.$d.toISOString(),
+                    imageURL: 'test_ImageURL',
+                });
+                handleCloseModalAddEvent();
+                fetchData();
             }
         } catch (error) {
-            console.error('An error occurred', error);
+            setError('Une erreur est survenue : ' + error);
         }
     }
 
@@ -330,6 +345,7 @@ export default function Event() {
                                     Upload file
                                     <VisuallyHiddenInput type="file" />
                                 </Button> */}
+                                <p className={styles.error}>{error && error}</p>
                                 <button type="submit" className={styles.buttonModalAddEvent}>Ajouter</button>
                             </form>
                         </div>
