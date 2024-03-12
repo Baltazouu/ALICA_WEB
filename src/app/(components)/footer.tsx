@@ -45,7 +45,7 @@ export default function Footer() {
                     <Link href="#events">
                         <p>Evenements</p>
                     </Link>
-                    <Link href="#offers">
+                    <Link href="/offers">
                         <p>Offres</p>
                     </Link>
                 </div>

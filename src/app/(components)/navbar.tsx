@@ -165,7 +165,7 @@ export default function Navbar() {
                 <Link className={styles.link} href="#events">
                     <p>Evenements</p>
                 </Link>
-                <Link className={styles.link} href="#offers">
+                <Link className={styles.link} href="/offers">
                     <p>Offres</p>
                 </Link>
                 <Link className={styles.link} href="" onClick={handleOpenContact}>
