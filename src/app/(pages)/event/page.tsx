@@ -35,21 +35,24 @@ export default function Event() {
     const [total, setTotal] = React.useState(0);
     const [page, setPage] = React.useState(0);
 
-    React.useEffect(() => {
-        fetchData();
-    }, [page]);
-
     const session = useSession();
 
-    let date1 = new Date().toLocaleDateString();
-    const [dateValue, setDateValue] = React.useState<Dayjs | null>(dayjs(date1));
     const [numberInputValue, setNumberInputValue] = React.useState<number>(0);
+    const [dateValue, setDateValue] = React.useState<Date | null>(null);
     const [events, setEvents] = React.useState({
         title: '',
         description: '',
-        date: dateValue?.$d.toISOString(),
-        imageURL: 'test_ImageURL',
+        date: dateValue?.toISOString(),
+        imageId: 'test_ImageURL',
     });
+
+    React.useEffect(() => {
+        fetchData();
+        setEvents(prevEvents => ({
+            ...prevEvents,
+            date: dateValue?.toISOString() || undefined,
+        }));
+    }, [page, dateValue]);
 
     const [openModalAddEvent, setOpenModalAddEvent] = React.useState(false);
     const handleOpenModalAddEvent = () => setOpenModalAddEvent(true);
@@ -226,16 +229,17 @@ export default function Event() {
             const events = rawEvents.map((event: any) => {
                 const organizer = organizersMap.get(event.organizerId) as { firstName: string; lastName: string; linkedinURL: string; imageURL: string; };
                 return {
+                    id: event.id,
                     title: event.title,
                     description: event.description,
-                    imageURL: event.imageURL,
+                    imageId: event.imageId,
                     date: event.date,
                     nbMaxRegistrations: event.nbMaxRegistrations,
                     nbRegistrations: event.nbRegistrations,
-                    organizerFirstName: organizer.firstName,
-                    organizerLastName: organizer.lastName,
-                    organizerLinkedinURL: organizer.linkedinURL,
-                    organizerImageURL: organizer.imageURL,
+                    organizerFirstName: organizer?.firstName,
+                    organizerLastName: organizer?.lastName,
+                    organizerLinkedinURL: organizer?.linkedinURL,
+                    organizerImageURL: organizer?.imageURL,
                 };
             });
             setEventsList(events);
@@ -260,7 +264,7 @@ export default function Event() {
                     title: events.title,
                     description: events.description,
                     date: events.date,
-                    imageURL: events.imageURL,
+                    imageId: events.imageId,
                     nbMaxRegistrations: numberInputValue,
                     alumniToken: session.data?.user.token
                 })
@@ -273,8 +277,8 @@ export default function Event() {
                 setEvents({
                     title: '',
                     description: '',
-                    date: dateValue?.$d.toISOString(),
-                    imageURL: 'test_ImageURL',
+                    date: dateValue?.toISOString() || undefined,
+                    imageId: 'test_ImageURL',
                 });
                 handleCloseModalAddEvent();
                 fetchData();
@@ -354,7 +358,7 @@ export default function Event() {
                 {loading
                     ? <CircularProgress />
                     : <>
-                        <Events eventsList={eventsList} />
+                        <Events eventsList={eventsList} alumniToken={session.data?.user.token} />
                         <div className={styles.pagination}>
                             <Pagination
                                 className={styles.eventPagination}
