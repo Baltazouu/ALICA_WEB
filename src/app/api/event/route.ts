@@ -22,8 +22,9 @@ export const GET = async (req: any) => {
 };
 
 export const POST = async (req: any) => {
-    const { title, description, date, imageURL, nbMaxRegistrations, alumniToken } = await req.json();
-
+    const alumniToken = req.headers.get('Authorization');
+    const { title, description, date, imageId, nbMaxRegistrations } = await req.json();
+    console.log(title, description, date, imageId, nbMaxRegistrations);
     try {
         const res = await fetch(process.env.API_URL + '/events', {
             method: 'POST',
@@ -36,7 +37,7 @@ export const POST = async (req: any) => {
                 title: title,
                 description: description,
                 date: date,
-                imageURL: imageURL,
+                imageId: imageId,
                 nbMaxRegistrations: nbMaxRegistrations
             })
         });

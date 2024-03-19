@@ -1,4 +1,4 @@
-.content{
+.content {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -7,14 +7,14 @@
     margin-top: 15px;
 }
 
-.events{
+.events {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
 }
 
-.event{
+.event {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -28,9 +28,11 @@
     background-color: white;
 }
 
-.event:hover{
+.event:hover {
     transition: 250ms;
     transform: scale(1.02);
+    border: none;
+    outline: none;
 }
 
 .eventImage {
@@ -49,63 +51,11 @@
 .eventDetails {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-around;
     align-items: flex-start;
     width: 55%;
     height: 100%;
-    padding: 1em;
-}
-
-.eventOrganizer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    height: 10%;
-}
-
-.eventNbRegistrations {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-    width: 75%;
-    font-size: 1.2em;
-    font-weight: 500;
-}
-
-.organizerTitle {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    height: auto;
-    margin-right: 2em;
-    font-size: 1.2em;
-    font-weight: 500;
-}
-
-.organizerName {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.3em;
-    font-weight: 600;
-    margin-left: -2em;
-    min-width: 7em;
-    text-transform: capitalize;
-}
-
-.organizerImageProfile {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 40%;
-    height: auto;
-    cursor: pointer;
+    padding: 1.5em;
 }
 
 .eventTitle {
@@ -115,15 +65,15 @@
     align-items: center;
     font-size: 2em;
     font-weight: 600;
-    margin: 0.75em 0;
     text-transform: capitalize;
 }
 
 .eventDescription {
     display: block;
     width: 100%;
-    height: 40%;
-    min-height: 5em;
+    height: 60%;
+    margin: 2em 0;
+    min-height: 8em;
     padding: 0.5em;
     border-radius: 5px;
     background-color: #fafafa;
@@ -175,7 +125,6 @@
 .subscribeEventButton {
     display: flex;
     padding: 0.35em 1.5em;
-    margin-top: 1.5em;
     margin-right: 1em;
     font-size: 0.95em;
     color: #ffffff;
@@ -185,15 +134,155 @@
     cursor: pointer;
 }
 
-.disableSubscribeEventButton {
+.modalInfoEvent {
+    position: absolute;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
-    padding: 0.35em 1.5em;
-    margin-top: 1.5em;
-    margin-right: 1em;
-    font-size: 0.95em;
-    color: #ffffff;
-    background-color: #dcdcdc;
-    border: none;
-    border-radius: 0.5em;
-    cursor: not-allowed;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 65%;
+    height: 75%;
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+}
+
+.titleModal {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 85%;
+    font-size: 1.5em;
+    padding: 0.5em 1em;
+    color: #000000;
+    border-bottom: 1px solid #9d9d9d;
+}
+
+.bottomPartModal {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 85%;
+    color: black;
+}
+
+.leftPartModal {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    width: 45%;
+    height: 100%;
+}
+
+.eventOrganizerModal {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+}
+
+.organizerTitleModal {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 35%;
+    font-size: 1.3em;
+    font-weight: 600;
+    color: #000000;
+}
+
+.infoOrganizerModal {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 65%;
+    color: #000000;
+}
+
+.organizerNameModal {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 50%;
+    font-size: 1.3em;
+    font-weight: 600;
+    margin-left: 0.75em;
+    color: #000000;
+}
+
+.organizerImageProfileModal {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 45%;
+    height: 100%;
+}
+
+.dateModal {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 1.3em;
+    font-weight: 600;
+    width: 100%;
+}
+
+.descriptionModal {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    height: 40%;
+    margin-top: 1em;
+    padding: 0.5em;
+    border-radius: 10px;
+    background-color: #f8f8f8;
+}
+
+.nbRegistrationsModal {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    font-size: 1.2em;
+    margin: 1em 0;
+}
+
+.nbRegistrationsModalWarning {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    font-size: 1.1em;
+    margin-top: 1em;
+}
+
+.nbRegistrationsModalWarningNumber {
+    font-size: 1.4em;
+    font-weight: 600;
+    margin: 0 0.4em;
+    color: #00DBFF;
+}
+
+.rightPartModal {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 45%;
+    height: 100%;
 }

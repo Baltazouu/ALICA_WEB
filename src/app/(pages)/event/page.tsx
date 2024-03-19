@@ -252,6 +252,8 @@ export default function Event() {
         }
     }
 
+    console.log('encule de token', session.data?.user.token);
+
     const handleAddEvent = async (e: any) => {
         e.preventDefault();
         try {
@@ -259,6 +261,7 @@ export default function Event() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + session.data?.user.token
                 },
                 body: JSON.stringify({
                     title: events.title,
@@ -266,7 +269,6 @@ export default function Event() {
                     date: events.date,
                     imageId: events.imageId,
                     nbMaxRegistrations: numberInputValue,
-                    alumniToken: session.data?.user.token
                 })
             });
             if (res.status !== 201) {
@@ -339,7 +341,7 @@ export default function Event() {
                                         setNumberInputValue(newValue as number);
                                     }}
                                 />
-                                {/* <Button
+                                <Button
                                     component="label"
                                     role={undefined}
                                     variant="contained"
@@ -348,7 +350,7 @@ export default function Event() {
                                 >
                                     Upload file
                                     <VisuallyHiddenInput type="file" />
-                                </Button> */}
+                                </Button>
                                 <p className={styles.error}>{error && error}</p>
                                 <button type="submit" className={styles.buttonModalAddEvent}>Ajouter</button>
                             </form>

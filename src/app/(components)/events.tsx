@@ -8,6 +8,8 @@ import Image from 'next/image';
 
 // Material UI
 import Divider from '@mui/material/Divider';
+import Modal from '@mui/material/Modal';
+import TextField from '@mui/material/TextField';
 
 // Import Images
 import imageLaserGame from '../../../public/images/laserGame.jpeg';
@@ -35,6 +37,9 @@ interface EventsProps {
 export default function Events({ eventsList, alumniToken }: EventsProps) {
     const session = useSession();
     const [subscribedEvents, setSubscribedEvents] = useState<number[]>([]);
+
+    const [openModalInfoEvent, setOpenModalInfoEvent] = useState<number>();
+    const handleCloseModalInfoEvent = () => setOpenModalInfoEvent(undefined);
 
     useEffect(() => {
         const fetchSubscribedEvents = async () => {
@@ -84,7 +89,7 @@ export default function Events({ eventsList, alumniToken }: EventsProps) {
 
     return (
         <div className={styles.content}>
-            <div className={styles.events}>
+            <div className={styles.events} >
                 {eventsList.length === 0 && <h3>Actuellement, il n'y a rien à pourvoir</h3>}
                 {eventsList.map((event, index) => (
                     <div key={index} className={styles.event}>
@@ -96,23 +101,51 @@ export default function Events({ eventsList, alumniToken }: EventsProps) {
                         </div>
                         <Divider orientation="vertical" variant="middle" flexItem />
                         <div className={styles.eventDetails}>
-                            <div className={styles.eventOrganizer}>
-                                <a href={event.organizerLinkedinURL} target="_blank" rel="noreferrer">
-                                    {event.organizerImageURL === undefined
-                                        ? <Image src={iconAlumni} className={styles.organizerImageProfile} alt="" />
-                                        : <img src={event.organizerImageURL} className={styles.organizerImageProfile} alt="" />
-                                    }
-                                </a>
-                                <p className={styles.organizerName}>{event.organizerFirstName} {event.organizerLastName}</p>
-                                <p className={styles.eventNbRegistrations}>{nbRegistrations(event)} places restantes</p>
-                            </div>
                             <h3 className={styles.eventTitle}>{event.title}</h3>
                             <p className={styles.eventDescription}>{event.description}</p>
                             <div className={styles.eventAction}>
-                                <button className={styles.subscribeEventButton} onClick={() => handleSubscribe(event.id, !isSubscribed(event.id))}>
-                                    {isSubscribed(event.id) ? 'Se désinscrire' : 'S\'inscrire'}
-                                </button>
-                                <button className={styles.subscribeEventButton}>En savoir plus</button>
+                                <button className={styles.subscribeEventButton} onClick={() => setOpenModalInfoEvent(event.id)}>En savoir plus</button>
+                                <Modal
+                                    open={openModalInfoEvent === event.id}
+                                    onClose={handleCloseModalInfoEvent}
+                                    aria-labelledby="modal-modal-title"
+                                    aria-describedby="modal-modal-description"
+                                >
+                                    <div className={styles.modalInfoEvent}>
+                                        <p className={styles.titleModal}>{event.title}</p>
+                                        <div className={styles.bottomPartModal}>
+                                            <div className={styles.leftPartModal}>
+                                                <div className={styles.eventOrganizerModal}>
+                                                    <p className={styles.organizerTitleModal}>Organisateur :</p>
+                                                    <div className={styles.infoOrganizerModal}>
+                                                        <p className={styles.organizerNameModal}>{event.organizerFirstName} {event.organizerLastName}</p>
+                                                        <a href={event.organizerLinkedinURL} target="_blank" rel="noreferrer">
+                                                            {event.organizerImageURL === undefined
+                                                                ? <Image src={iconAlumni} className={styles.organizerImageProfileModal} alt="" />
+                                                                : <img src={event.organizerImageURL} className={styles.organizerImageProfileModal} alt="" />
+                                                            }
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <p className={styles.dateModal}>{new Date(event.date).toLocaleDateString('fr-FR', { weekday: 'long', month: 'long', day: 'numeric' })}</p>
+                                                <p className={styles.descriptionModal}>{event.description}</p>
+                                                {nbRegistrations(event) <= 5
+                                                    ? <p className={styles.nbRegistrationsModalWarning}>Plus que <span className={styles.nbRegistrationsModalWarningNumber}>{nbRegistrations(event)}</span> places !!</p>
+                                                    : <p className={styles.nbRegistrationsModal}>Il reste {nbRegistrations(event)} places</p>
+                                                }
+                                                <button className={styles.subscribeEventButton} onClick={() => handleSubscribe(event.id, !isSubscribed(event.id))}>
+                                                    {isSubscribed(event.id) ? 'Se désinscrire' : 'S\'inscrire'}
+                                                </button>
+                                            </div>
+                                            <div className={styles.rightPartModal}>
+                                                {event.imageId === null
+                                                    ? <Image src={imageLaserGame} alt="" className={styles.image} />
+                                                    : <img src={event.imageId} alt="" className={styles.image} />
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Modal>
                             </div>
                         </div>
                         <div className={styles.eventDate}>
